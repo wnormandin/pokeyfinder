@@ -42,7 +42,7 @@ import datetime
 from urllib.parse import urljoin
 
 this = sys.modules[__name__]
-DEF_UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
+DEF_UA = ''
 session = requests.Session()
 
 class Formatter(argparse.RawDescriptionHelpFormatter):
