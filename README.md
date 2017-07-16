@@ -4,6 +4,7 @@
 * Set a default User Agent string in the script if desired.
 * Use --ext-list to pass a list of file extensions to be tested for each word.
 * Max-threads is PER TARGET.
+* If you notice a lot of HTTPSConnectionPool errors, specify https for the affected target domain
 ```
 usage: pokeyfinder.py [-h] --target [TARGET [TARGET ...]] --word-list
                       WORD_LIST [--max-threads MAX_THREADS] [--ua UA]
