@@ -42,7 +42,7 @@ import datetime
 from urllib.parse import urljoin
 
 this = sys.modules[__name__]
-DEF_UA = ''
+DEF_UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
 session = requests.Session()
 
 class Formatter(argparse.RawDescriptionHelpFormatter):
@@ -162,37 +162,44 @@ def gather_results(q):
         q.task_done()
 
 if __name__ == '__main__':
-    cli()
-    cprint(' -  CLI arguments parsed', Color.BLUE, True)
-    threads = []
-    result_q = queue.Queue()
-    run_event = threading.Event()
-    run_event.set()
-    cprint(' -  Run event set', Color.BLUE, True)
     try:
-        for target in args.target:
-            if not target.startswith('http://') and not target.startswith('https://'):
-                target = 'http://{}'.format(target)
-            cprint('[*] Building word list', Color.MSG)
-            word_q = list_builder()
-            for i in range(args.max_threads):
-                t = threading.Thread(target=directory_bruter, args=(word_q, target, result_q, run_event))
-                t.start()
-                threads.append(t)
-        cprint('[*] {} total threads started'.format(len(threads)), Color.MSG)
-        for t in threads:
-            t.join()
+        cli()
+        cprint(' -  CLI arguments parsed', Color.BLUE, True)
+        threads = []
+        result_q = queue.Queue()
+        run_event = threading.Event()
+        run_event.set()
+        cprint(' -  Run event set', Color.BLUE, True)
+        try:
+            for target in args.target:
+                if not target.startswith('http://') and not target.startswith('https://'):
+                    target = 'http://{}'.format(target)
+                cprint('[*] Building word list', Color.MSG)
+                word_q = list_builder()
+                for i in range(args.max_threads):
+                    t = threading.Thread(target=directory_bruter,
+                                         args=(word_q, target,
+                                              result_q, run_event))
+                    t.start()
+                    threads.append(t)
+            cprint('[*] {} total threads started'.format(len(threads)), Color.MSG)
+            for t in threads:
+                t.join()
+        except KeyboardInterrupt:
+            print()
+            cprint('[*] Keyboard interrupt detected', Color.ERR)
+            cprint(' -  Gathering results, Ctrl+C again to force quit', Color.BLUE)
+            run_event.clear()
+            cprint(' -  Run event cleared', Color.BLUE, True)
+            for t in threads:
+                t.join()
+
+        gather_results(result_q)
+        with open(args.outfile, 'w+') as ofile:
+            cprint(' -  {} opened for writing'.format(args.outfile), Color.BLUE, True)
+            json.dump(results, ofile, indent=2)
+        cprint('[*] Results written successfully', Color.MSG)
     except KeyboardInterrupt:
         print()
-        cprint('[*] Keyboard interrupt detected', Color.ERR)
-        cprint(' -  Gathering results, Ctrl+C again to force quit', Color.BLUE)
-        run_event.clear()
-        cprint(' -  Run event cleared', Color.BLUE, True)
-        for t in threads:
-            t.join()
-
-    gather_results(result_q)
-    with open(args.outfile, 'w+') as ofile:
-        cprint(' -  {} opened for writing'.format(args.outfile), Color.BLUE, True)
-        json.dump(results, ofile, indent=2)
-    cprint('[*] Results written successfully', Color.MSG)
+        cprint('[*] Exiting', Color.ERR)
+        sys.exit(0)
