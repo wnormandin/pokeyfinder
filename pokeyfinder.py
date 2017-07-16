@@ -148,7 +148,7 @@ def directory_bruter(word_q, target, result_q, run_event):
                     cprint('{} -> {} ({})'.format(resp.status_code, url, resp.url), col)
                 result_q.put((resp.status_code, url, resp.url))
             except Exception as e:
-                cprint('{} -> {}'.format(url, str(e)[:30]), Color.ERR)
+                cprint('{} -> {}'.format(url, str(e)[:50]), Color.ERR)
                 continue
         word_q.task_done()
 
