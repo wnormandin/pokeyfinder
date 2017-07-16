@@ -1,6 +1,6 @@
 # pokeyfinder
 ### A simple tool to discover web pages based on a word list.
-* Download a word list (i.e. [SVN Digger](https://www.netsparker.com/blog/web-security/svn-digger-better-lists-for-forced-browsing/) against which to compare each target domain.
+* Download a word list (i.e. [SVN Digger](https://www.netsparker.com/blog/web-security/svn-digger-better-lists-for-forced-browsing/)) against which to compare each target domain.
 * Set a default User Agent string in the script if desired.
 * Use --ext-list to pass a list of file extensions to be tested for each word.
 * Max-threads is PER TARGET.
