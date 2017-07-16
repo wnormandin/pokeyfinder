@@ -40,8 +40,8 @@ Basic usage (with interrupt)
 [*] Building word list
 [*] Building word list
 [*] 15 total threads started
-200 -> http://test.com/CVS/ (https://www.test.com/)
-200 -> http://test.com/common/ (https://www.test.com/)
+404 -> http://test.com/CVS/ (https://www.test.com/CVS/)
+200 -> http://test.com/common/ (https://www.test.com/common)
 ...
 [*] Keyboard interrupt detected
 [*] Results written successfully
