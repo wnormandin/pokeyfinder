@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # * * * * * * * * * * * * * * * * * * * *
-#   pokeyfinder.py : map a web application based on a local directory hierarchy
+#   pokeyfinder.py : find web pages using a word list
 #   https://github.com/wnormandin/pokeyfinder
 #   Requires python3
 # * * * * * * * * * * * * * * * * * * * *
